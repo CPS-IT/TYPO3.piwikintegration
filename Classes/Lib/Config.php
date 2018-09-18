@@ -27,6 +27,8 @@ namespace KayStrobach\Piwikintegration\Lib;
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * interact with Matomo core after download and unzip.
@@ -125,6 +127,11 @@ class Config
      */
     public function makePiwikConfigured()
     {
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        /** @var \TYPO3\CMS\Core\Database\Connection $connection */
+        $connection = $connectionPool->getConnectionByName('Default');
+
         $this->initPiwikFrameWork();
         //userdata
         $this->setOption('superuser', 'login', md5(microtime()));
@@ -132,17 +139,12 @@ class Config
         $this->setOption('superuser', 'email', $GLOBALS['BE_USER']->user['email']);
 
         //Database
-        $hostAndPort = explode(':', TYPO3_db_host);
-        if (count($hostAndPort) == 2) {
-            $this->setOption('database', 'host', $hostAndPort[0]);
-            $this->setOption('database', 'port', $hostAndPort[1]);
-        } else {
-            $this->setOption('database', 'host', TYPO3_db_host);
-        }
+        $this->setOption('database', 'port', $connection->getPort());
+        $this->setOption('database', 'host', $connection->getHost());
 
-        $this->setOption('database', 'username', TYPO3_db_username);
-        $this->setOption('database', 'password', TYPO3_db_password);
-        $this->setOption('database', 'dbname', TYPO3_db);
+        $this->setOption('database', 'username', $connection->getUsername());
+        $this->setOption('database', 'password', $connection->getPassword());
+        $this->setOption('database', 'dbname', $connection->getDatabase());
         $this->setOption('database', 'tables_prefix', 'user_piwikintegration_');
         $this->setOption('database', 'adapter', 'PDO_MYSQL');
 
