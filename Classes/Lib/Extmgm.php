@@ -128,6 +128,10 @@ class Extmgm
             \TYPO3\CMS\Core\Messaging\FlashMessage::INFO
         );
 
-        return $flashMessage->render();
+        $flashMessageService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Messaging\FlashMessageService::class);
+        $messageQueue = $flashMessageService->getMessageQueueByIdentifier();
+        $messageQueue->addMessage($flashMessage);
+
+        return $messageQueue->renderFlashMessages();
     }
 }

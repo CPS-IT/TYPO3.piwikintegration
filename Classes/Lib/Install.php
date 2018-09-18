@@ -83,7 +83,9 @@ class Install
                 'There was a Problem',
                 \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
             );
-            \TYPO3\CMS\Core\Messaging\FlashMessageQueue::addMessage($flashMessage);
+            $flashMessageService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Messaging\FlashMessageService::class);
+            $messageQueue = $flashMessageService->getMessageQueueByIdentifier();
+            $messageQueue->addMessage($flashMessage);
         }
     }
 
@@ -117,7 +119,10 @@ class Install
                 'There was a Problem',
                 \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
             );
-            \TYPO3\CMS\Core\Messaging\FlashMessageQueue::addMessage($flashMessage);
+
+            $flashMessageService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Messaging\FlashMessageService::class);
+            $messageQueue = $flashMessageService->getMessageQueueByIdentifier();
+            $messageQueue->addMessage($flashMessage);
         }
     }
 
