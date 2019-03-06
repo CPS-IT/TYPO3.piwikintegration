@@ -29,7 +29,15 @@
 	},
 	"autoload" : {
 		"psr-4" : {
-			"KayStrobach\\Piwikintegration\\" : "Classes"
+			"KayStrobach\\Piwikintegration\\" : "Classes",
+			"Piwik\\Plugins\\": "piwik/piwik/plugins/",
+			"Piwik\\": "piwik/piwik/core/"
+		},
+		"psr-0": {
+			"Zend_": "piwik/piwik/libs/",
+			"HTML_": "piwik/piwik/libs/",
+			"PEAR_": "piwik/piwik/libs/",
+			"Archive_": "piwik/piwik/libs/"
 		},
 		"classmap" : [
 			"Classes/"

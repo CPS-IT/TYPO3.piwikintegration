@@ -22,5 +22,3 @@
 .webprj
 nbproject
 /piwik/piwik/tmp/*
-/piwik/piwik/composer.json
-/piwik/piwik/composer.lock
