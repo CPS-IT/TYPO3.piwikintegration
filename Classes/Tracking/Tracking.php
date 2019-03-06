@@ -190,7 +190,7 @@ class Tracking
             \KayStrobach\Piwikintegration\Lib\Install::getInstaller()->getConfigObject()->initPiwikFrameWork();
             $path = \Piwik\Url::getCurrentUrlWithoutFileName();
             $path = dirname($path);
-            $path .= '/' . $this->matomoInstaller->getBaseUrl();
+            $path .= '/' . $this->matomoInstaller->getBaseUrl().'/';
         } else {
             $path = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['SCRIPT_NAME']).'/'.$this->matomoInstaller->getBaseUrl();
         }

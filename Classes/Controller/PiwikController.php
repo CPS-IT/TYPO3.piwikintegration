@@ -34,7 +34,7 @@ class PiwikController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         /** @var \KayStrobach\Piwikintegration\Lib\Install $matomoInstaller */
         $this->matomoInstaller = \KayStrobach\Piwikintegration\Lib\Install::getInstaller();
 
-        $this->matomoPath = $this->matomoInstaller->getBaseUrl();
+        $this->matomoPath = $this->matomoInstaller->getBaseUrl() . '/';
 
     }
 

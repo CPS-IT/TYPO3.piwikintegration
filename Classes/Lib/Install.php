@@ -147,7 +147,7 @@ class Install
      */
     public function getBaseUrl()
     {
-        return $this->installPath.'piwik/';
+        return $this->installPath.'piwik';
     }
 
     /**

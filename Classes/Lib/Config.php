@@ -91,8 +91,8 @@ class Config
                 PATH_SEPARATOR.PIWIK_INCLUDE_PATH.'/plugins/'.
                 PATH_SEPARATOR.get_include_path());
 
-        require_once PIWIK_INCLUDE_PATH.'libs/upgradephp/upgrade.php';
-        require_once PIWIK_INCLUDE_PATH.'vendor/autoload.php';
+        require_once PIWIK_INCLUDE_PATH.'/libs/upgradephp/upgrade.php';
+        require_once PIWIK_INCLUDE_PATH.'/vendor/autoload.php';
 
         // create root container
         $environment = new \Piwik\Application\Environment(null);
