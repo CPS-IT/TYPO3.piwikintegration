@@ -12,6 +12,7 @@ adapter = "PDO_MYSQL"
 enable_framed_pages = 1
 enable_framed_settings = 1
 enable_trusted_host_check = 0
+tmp_path = "/../../../../../typo3temp/piwikintegration"
 enable_update_communication = 0
 piwik_professional_support_ads_enabled = 0
 show_website_selector_in_user_interface = 0
