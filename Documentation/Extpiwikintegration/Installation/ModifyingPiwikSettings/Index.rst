@@ -13,5 +13,5 @@ Modifying Matomo settings
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Read the corresponding articles on matomo.org. You will find the
-configuration and all the needed files below typo3conf/piwik/piwik.
+configuration and all the needed files below piwik/piwik.
 

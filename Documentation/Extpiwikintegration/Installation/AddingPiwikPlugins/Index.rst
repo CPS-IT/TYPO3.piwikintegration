@@ -13,7 +13,7 @@ Adding Matomo plugins
 ^^^^^^^^^^^^^^^^^^^^^
 
 Adding pluging to Matomo is as easy as extracting zip files to the
-plugins folder in the folder typo3conf/piwik/piwik.
+plugins folder in the folder piwik/piwik.
 
 I suggest to install EXT:t3extplorer and use the upload vie URL
 functionality of this extensions as here it is also possible to

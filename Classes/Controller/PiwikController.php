@@ -22,6 +22,23 @@ class PiwikController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     protected $id = 0;
 
     /**
+     * @var string
+     */
+    protected $matomoPath;
+
+    /**
+     * PiwikController constructor.
+     */
+    public function __construct()
+    {
+        /** @var \KayStrobach\Piwikintegration\Lib\Install $matomoInstaller */
+        $this->matomoInstaller = \KayStrobach\Piwikintegration\Lib\Install::getInstaller();
+
+        $this->matomoPath = $this->matomoInstaller->getBaseUrl();
+
+    }
+
+    /**
      * @return void
      */
     public function initializeAction()
@@ -113,7 +130,7 @@ class PiwikController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             return false;
         }
         // check whether piwik_host is correct
-        if (($t['piwik_host'] !== 'typo3conf/piwik/piwik/') && ($t['piwik_host'] !== '/typo3conf/piwik/piwik/')) {
+        if (($t['piwik_host'] !== $this->matomoPath) && ($t['piwik_host'] !== '/' . $this->matomoPath)) {
             $this->addFlashMessage(
                 'Matomo host is not set correctly',
                 '',

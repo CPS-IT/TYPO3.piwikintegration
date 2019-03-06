@@ -73,8 +73,8 @@ class Config
 
         //load files from Matomo
         if (!defined('PIWIK_INCLUDE_PATH')) {
-            define('PIWIK_INCLUDE_PATH', PATH_site.'typo3conf/piwik/piwik/');
-            define('PIWIK_USER_PATH', PATH_site.'typo3conf/piwik/piwik/');
+            define('PIWIK_INCLUDE_PATH', PATH_site . $this->installer->getBaseUrl());
+            define('PIWIK_USER_PATH', PATH_site . $this->installer->getBaseUrl());
         }
         if (!defined('PIWIK_INCLUDE_SEARCH_PATH')) {
             define('PIWIK_INCLUDE_SEARCH_PATH',
@@ -118,6 +118,21 @@ class Config
             $this->initPiwikDb = true;
 
             return;
+        }else{
+            /** @var ConnectionPool $connectionPool */
+            $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+            /** @var \TYPO3\CMS\Core\Database\Connection $connection */
+            $connection = $connectionPool->getConnectionByName('Default');
+
+            $this->initPiwikFrameWork();
+
+            //Database
+            $this->setOption('database', 'host', $connection->getHost());
+            $this->setOption('database', 'username', $connection->getUsername());
+            $this->setOption('database', 'password', $connection->getPassword());
+            $this->setOption('database', 'dbname', $connection->getDatabase());
+            $this->setOption('database', 'tables_prefix', 'user_piwikintegration_');
+            $this->setOption('database', 'adapter', 'PDO_MYSQL');
         }
         \Piwik\Db::createDatabaseObject();
     }

@@ -35,6 +35,22 @@ namespace KayStrobach\Piwikintegration\Tracking;
  */
 class Tracking
 {
+
+    /**
+     * @var \KayStrobach\Piwikintegration\Lib\Install
+     */
+    protected $matomoInstaller;
+
+    /**
+     * PiwikController constructor.
+     */
+    public function __construct()
+    {
+        /** @var \KayStrobach\Piwikintegration\Lib\Install $matomoInstaller */
+        $this->matomoInstaller = \KayStrobach\Piwikintegration\Lib\Install::getInstaller();
+
+    }
+
     /**
      * @param $params
      * @param $reference
@@ -174,9 +190,9 @@ class Tracking
             \KayStrobach\Piwikintegration\Lib\Install::getInstaller()->getConfigObject()->initPiwikFrameWork();
             $path = \Piwik\Url::getCurrentUrlWithoutFileName();
             $path = dirname($path);
-            $path .= '/typo3conf/piwik/piwik/';
+            $path .= '/' . $this->matomoInstaller->getBaseUrl();
         } else {
-            $path = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['SCRIPT_NAME']).'/typo3conf/piwik/piwik/';
+            $path = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['SCRIPT_NAME']).'/'.$this->matomoInstaller->getBaseUrl();
         }
 
         return $path;
