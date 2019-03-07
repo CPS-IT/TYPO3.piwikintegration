@@ -46,7 +46,7 @@ class Install
     /**
      * path were Matomo will be installed.
      */
-    protected $installPath = 'typo3conf/ext/piwikintegration/piwik/';
+    protected $installPath = 'piwik/';
 
     /**
      * @var \KayStrobach\Piwikintegration\Lib\Install
