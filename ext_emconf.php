@@ -14,7 +14,7 @@ $EM_CONF[$_EXTKEY] = [
     'title'            => 'Matomo Backend integration',
     'description'      => 'Uses EXT:piwik to inserts Data in the HTML header and gives BE-Users the right to see the data for their sites. Autoupdate of Matomo will work as TYPO3-Admin!',
     'category'         => 'module',
-    'version'          => '4.5.0',
+    'version'          => '4.6.0',
     'module'           => 'mod1',
     'state'            => 'beta',
     'uploadfolder'     => 0,
@@ -27,7 +27,7 @@ $EM_CONF[$_EXTKEY] = [
     'constraints'      => [
         'depends' => [
             'php'   => '5.5.0-7.2.99',
-            'typo3' => '7.6.0-8.7.99',
+            'typo3' => '8.7.99',
         ],
         'conflicts' => [
             'dbal' => '1.0.0-99.0.0',
