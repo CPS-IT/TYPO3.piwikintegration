@@ -23,9 +23,10 @@ $EM_CONF[$_EXTKEY] = [
     'author'           => 'Kay Strobach',
     'author_email'     => 'kay.strobach@typo3.org',
     'author_company'   => '',
+    'createDirs' => 'typo3temp/piwikintegration',
     'constraints'      => [
         'depends' => [
-            'php'   => '5.5.0-7.1.99',
+            'php'   => '5.5.0-7.2.99',
             'typo3' => '7.6.0-8.7.99',
         ],
         'conflicts' => [

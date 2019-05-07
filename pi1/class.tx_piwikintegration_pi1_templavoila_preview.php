@@ -88,7 +88,7 @@ class tx_piwikintegration_pi1_templavoila_preview
 
             //$helper = new tx_piwikintegration_helper();
             $obj .= '<div style="width:'.$this->extConf['height'].'px;"><object width="100%" type="text/html" height="'.intval($this->extConf['height']).'" data="';
-            $obj .= '../../../../typo3conf/piwik/piwik/index.php?module=Widgetize&action=iframe'.\TYPO3\CMS\Core\Utility\GeneralUtility::implodeArrayForUrl('', $this->extConf['widget']);
+            $obj .= '../../../../piwik/piwik/index.php?module=Widgetize&action=iframe'.\TYPO3\CMS\Core\Utility\GeneralUtility::implodeArrayForUrl('', $this->extConf['widget']);
             $obj .= '&disableLink=1"></object></div>';
 
             $content .= $obj;
