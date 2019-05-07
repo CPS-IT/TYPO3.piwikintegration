@@ -46,7 +46,7 @@ class Install
     /**
      * path were Matomo will be installed.
      */
-    protected $installPath = 'typo3conf/piwik/';
+    protected $installPath = 'piwik/';
 
     /**
      * @var \KayStrobach\Piwikintegration\Lib\Install
@@ -83,7 +83,9 @@ class Install
                 'There was a Problem',
                 \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
             );
-            \TYPO3\CMS\Core\Messaging\FlashMessageQueue::addMessage($flashMessage);
+            $flashMessageService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Messaging\FlashMessageService::class);
+            $messageQueue = $flashMessageService->getMessageQueueByIdentifier();
+            $messageQueue->addMessage($flashMessage);
         }
     }
 
@@ -117,7 +119,10 @@ class Install
                 'There was a Problem',
                 \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
             );
-            \TYPO3\CMS\Core\Messaging\FlashMessageQueue::addMessage($flashMessage);
+
+            $flashMessageService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Messaging\FlashMessageService::class);
+            $messageQueue = $flashMessageService->getMessageQueueByIdentifier();
+            $messageQueue->addMessage($flashMessage);
         }
     }
 
@@ -142,7 +147,7 @@ class Install
      */
     public function getBaseUrl()
     {
-        return $this->installPath.'piwik/';
+        return $this->installPath.'piwik';
     }
 
     /**
@@ -235,7 +240,7 @@ class Install
             }
             if ((!(TYPO3_OS == 'WIN' || $GLOBALS['TYPO3_CONF_VARS']['BE']['disable_exec_function']))) {
                 $buffer .= ' -> used TYPO3 cmd line function to extract files, if you use solaris this may be the problem.';
-                $buffer .= ' -> please manually extract Matomo and copy it to typo3conf/piwik/piwik and use the extmgm update script to patch and configure piwik';
+                $buffer .= ' -> please manually extract Matomo and copy it to ' . $this->matomoInstaller->getBaseUrl() . ' and use the extmgm update script to patch and configure piwik';
                 $buffer .= ' -> take a look in your manual for more information or use an environment with a working zip class';
             }
 

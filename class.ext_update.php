@@ -35,6 +35,7 @@
  */
 class ext_update
 {
+
     public function access($what = 'all')
     {
         return true;
@@ -55,7 +56,11 @@ class ext_update
                     $result = $e->getMessage();
                     $flashMessage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Messaging\\FlashMessage', $result, '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
                 }
-                $buffer .= $flashMessage->render();
+                $flashMessageService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Messaging\FlashMessageService::class);
+                $messageQueue = $flashMessageService->getMessageQueueByIdentifier();
+                $messageQueue->addMessage($flashMessage);
+                $buffer .= $messageQueue->renderFlashMessages();
+
             } else {
                 $buffer .= $LANG->getLL('methodNotFound');
             }
@@ -67,7 +72,11 @@ class ext_update
             $flashMessage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
                     'TYPO3\\CMS\\Core\\Messaging\\FlashMessage', $LANG->getLL('installedPiwikNeeded'), '', \TYPO3\CMS\Core\Messaging\FlashMessage::INFO
             );
-            $buffer .= $flashMessage->render();
+            $flashMessageService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Messaging\FlashMessageService::class);
+            $messageQueue = $flashMessageService->getMessageQueueByIdentifier();
+            $messageQueue->addMessage($flashMessage);
+
+            $buffer .= $messageQueue->renderFlashMessages();
         }
 
         $buffer .= $this->getHeader($LANG->getLL('header.installation'));

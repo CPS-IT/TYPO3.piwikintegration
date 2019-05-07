@@ -27,6 +27,8 @@ namespace KayStrobach\Piwikintegration\Lib;
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * interact with Matomo core after download and unzip.
@@ -71,8 +73,8 @@ class Config
 
         //load files from Matomo
         if (!defined('PIWIK_INCLUDE_PATH')) {
-            define('PIWIK_INCLUDE_PATH', PATH_site.'typo3conf/piwik/piwik/');
-            define('PIWIK_USER_PATH', PATH_site.'typo3conf/piwik/piwik/');
+            define('PIWIK_INCLUDE_PATH', PATH_site . $this->installer->getBaseUrl());
+            define('PIWIK_USER_PATH', PATH_site . $this->installer->getBaseUrl());
         }
         if (!defined('PIWIK_INCLUDE_SEARCH_PATH')) {
             define('PIWIK_INCLUDE_SEARCH_PATH',
@@ -89,8 +91,8 @@ class Config
                 PATH_SEPARATOR.PIWIK_INCLUDE_PATH.'/plugins/'.
                 PATH_SEPARATOR.get_include_path());
 
-        require_once PIWIK_INCLUDE_PATH.'libs/upgradephp/upgrade.php';
-        require_once PIWIK_INCLUDE_PATH.'vendor/autoload.php';
+        require_once PIWIK_INCLUDE_PATH.'/libs/upgradephp/upgrade.php';
+        require_once PIWIK_INCLUDE_PATH.'/vendor/autoload.php';
 
         // create root container
         $environment = new \Piwik\Application\Environment(null);
@@ -116,6 +118,21 @@ class Config
             $this->initPiwikDb = true;
 
             return;
+        }else{
+            /** @var ConnectionPool $connectionPool */
+            $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+            /** @var \TYPO3\CMS\Core\Database\Connection $connection */
+            $connection = $connectionPool->getConnectionByName('Default');
+
+            $this->initPiwikFrameWork();
+
+            //Database
+            $this->setOption('database', 'host', $connection->getHost());
+            $this->setOption('database', 'username', $connection->getUsername());
+            $this->setOption('database', 'password', $connection->getPassword());
+            $this->setOption('database', 'dbname', $connection->getDatabase());
+            $this->setOption('database', 'tables_prefix', 'user_piwikintegration_');
+            $this->setOption('database', 'adapter', 'PDO_MYSQL');
         }
         \Piwik\Db::createDatabaseObject();
     }
@@ -125,6 +142,11 @@ class Config
      */
     public function makePiwikConfigured()
     {
+        /** @var ConnectionPool $connectionPool */
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        /** @var \TYPO3\CMS\Core\Database\Connection $connection */
+        $connection = $connectionPool->getConnectionByName('Default');
+
         $this->initPiwikFrameWork();
         //userdata
         $this->setOption('superuser', 'login', md5(microtime()));
@@ -132,17 +154,12 @@ class Config
         $this->setOption('superuser', 'email', $GLOBALS['BE_USER']->user['email']);
 
         //Database
-        $hostAndPort = explode(':', TYPO3_db_host);
-        if (count($hostAndPort) == 2) {
-            $this->setOption('database', 'host', $hostAndPort[0]);
-            $this->setOption('database', 'port', $hostAndPort[1]);
-        } else {
-            $this->setOption('database', 'host', TYPO3_db_host);
-        }
+        $this->setOption('database', 'port', $connection->getPort());
+        $this->setOption('database', 'host', $connection->getHost());
 
-        $this->setOption('database', 'username', TYPO3_db_username);
-        $this->setOption('database', 'password', TYPO3_db_password);
-        $this->setOption('database', 'dbname', TYPO3_db);
+        $this->setOption('database', 'username', $connection->getUsername());
+        $this->setOption('database', 'password', $connection->getPassword());
+        $this->setOption('database', 'dbname', $connection->getDatabase());
         $this->setOption('database', 'tables_prefix', 'user_piwikintegration_');
         $this->setOption('database', 'adapter', 'PDO_MYSQL');
 

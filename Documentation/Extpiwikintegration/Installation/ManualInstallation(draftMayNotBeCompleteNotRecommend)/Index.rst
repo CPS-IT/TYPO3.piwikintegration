@@ -34,8 +34,8 @@ these steps:
 
 #. Install and enable the plugin EXT:piwikintegration.
 
-#. Copy Matomo in typo3conf/piwik/piwik so that the index.php is
-   accessable via typo3conf/piwik/piwik/index.php
+#. Copy Matomo in piwik/piwik so that the index.php is
+   accessable via piwik/piwik/index.php
 
 #. Setup Matomo with the same database parameters as you use for your
    TYPO3 installation. You need to set the prefix to
